@@ -147,6 +147,7 @@ function addToPopUp (destination, teamChoice, quoteChoice, teamDom, teamGuest, i
     dataIndexExiste.querySelector('.quoteChoice').textContent = quoteChoice;
     // Retirer l'ancienne cote du tableau cotesTab
     const oldIndex = cotesTab.indexOf(dataIndexExiste.querySelector('.quoteChoice').textContent);
+    // si oldIndex est différent de -1, c'est que l'ancienne cote a été trouvée dans le cotesTab. Du coup, on splice pour supprimer l'élément du tableau cotesTab
     if (oldIndex !== -1) {
       cotesTab.splice(oldIndex, 1);
     }
@@ -175,6 +176,7 @@ function addToPopUp (destination, teamChoice, quoteChoice, teamDom, teamGuest, i
       if (existingIndex !== -1) {
         // Mettre à jour la cote existante avec la nouvelle cote
         cotesTab[existingIndex] = { index: index, quoteChoice: quoteChoice };
+
       } else {
         // Si l'index n'existe pas encore dans le tableau cotesTab,
         // ajouter une nouvelle entrée avec l'index et la nouvelle cote
@@ -222,7 +224,6 @@ function multiplyCotes() {
 
 
 
-
 // intégrer API début ********************
 function myFetch (){
 
@@ -266,11 +267,14 @@ function myFetch (){
               if(e.target.classList.contains('active')){
               // si la réponse est true :
               // Supprimer l'élément avec le même data-index du conteneur "choices" (popup)
-              const dataIndex = e.target.closest('.line_match').dataset.index;
-              const choiceToDelete = document.querySelector(`.choice[data-index="${dataIndex}"]`);
-              if (choiceToDelete) {
-                  choiceToDelete.remove()
-              }
+              // const dataIndex = e.target.closest('.line_match').dataset.index;
+              // const choiceToDelete = document.querySelector(`.choice[data-index="${dataIndex}"]`);
+              // if (choiceToDelete) {
+              //     choiceToDelete.remove()
+              //     // je n'ai pas réussi à mettre à jour la cote total et le gain total :-(. pas eu le temps de tester autre chose. je voulais faire en sorte que si le data index n'existait pas dans choices, le splice de cotesTab et du coup il ne sera jamais multiplié
+              //     multiplyCotes()
+                  
+              // }
             // toggle enlève si elle est là, met si elle n'est pas là
               e.target.classList.toggle('active') 
               // si l'élément clické n'a pas la classe active, on l'ajoute'
@@ -379,10 +383,6 @@ choices.addEventListener("click", function(event) {
       activeElement.classList.remove('active');
     }
 }
-
-
-
-
 
     // Recalculer les cotations après la suppression d'un élément
     multiplyCotes();
