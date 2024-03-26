@@ -1,5 +1,6 @@
 body{
     display: flex;
+    overflow: hidden;
 }
 
 .marge{
@@ -7,9 +8,24 @@ body{
     width: 300px;
     background-color: rgb(92, 16, 92);
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     img{
         margin-top: 20px;
         width: 100px;
+    }
+    .darkModeBoutons{
+        position: relative;
+        span{
+            position: absolute;
+            bottom: 0;
+        }
+        .lightModeBtn{
+            display: none;
+        }
     }
 }
 .wrapper{
@@ -34,7 +50,20 @@ header{
 
 .paysLeague{
     display: flex;
-    gap: 20px;
+    align-items: center;
+    width: 300px;
+    font-weight: bold;
+    .pays{
+        padding: 15px;
+        background-color: rgb(140, 98, 182);
+        color: rgb(248, 245, 240);
+    }
+    .league{
+    background-color: rebeccapurple;
+    color: rgb(248, 245, 240);
+    padding: 15px;
+    border-radius: 0 0 10px 0;
+    }
 }
 .matchs_quotes{
     display: grid;
@@ -43,6 +72,14 @@ height: 100%;
 width: 100%;
 }
 
+
+.buttons_quotes_ref{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    font-weight: bold;
+}
 .lines_matchs{
 margin-left: 50px;
 display: flex;
@@ -63,12 +100,13 @@ cursor: pointer;
 .line_match{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
 }
 
 .randomImg{
 width: 100%;
-background: url(../../images/bg1.webp) bottom/cover no-repeat;
+background: url(../images/bg1.webp) bottom/cover no-repeat;
 position: relative;
 }
 
@@ -90,7 +128,7 @@ position: relative;
         text-align: center;
         color: rgb(226, 189, 226);
         padding: 5px;
-        border-radius: 10px 10px 0 0;
+        border-radius: 8px 8px 0 0;
     }
 
     .choices{
@@ -127,5 +165,14 @@ position: relative;
         }
 }
 }
+
+.dark-mode{
+    background-color: rgb(75, 72, 72);
+    color: rgb(248, 245, 240);
+    a{
+        color: rgb(248, 245, 240);
+    }
+}
+
 
 

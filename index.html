@@ -11,6 +11,10 @@
 <body>
     <div class="marge">
             <img src="images/logo.webp" alt="logo">
+            <div class="darkModeBoutons">
+                <span class="darkModeBtn">🌑</span>
+                <span class="lightModeBtn">☀️</span>
+            </div>
     </div>
     <section class="wrapper">
         <header>
@@ -20,38 +24,56 @@
                     <a href="#">Football</a>
                     <a href="#">Football</a>
                     <a href="#">Football</a>
+                    <div class="langButtons">
+                    <button class="langBtn" data-lang="english">English</button>
+                    <button class="langBtn" data-lang="french">Français</button>
+                    <button class="langBtn" data-lang="spanish">Español</button>
+                    </div>
         </header>
         <section class="paysLeague">
             <div class="pays">Belgique</div>
             <div class="league">Jupiler Pro League</div>
         </section>
         <section class="matchs_quotes">
-            <div class="lines_matchs"></div>
+            <div class="lines_matchs">
+                <div class="line_match">
+                    <div class="match">
+                        <span class="teamDom"></span><span class="teamGuest"></span>
+                    </div>
+                    <div class="buttons_quotes_ref">
+                        <div>1</div>
+                        <div>X</div>
+                        <div>2</div>
+                    </div>
+                    </div>
+            </div>
             <div class="randomImg"></div>
             <div class="pop-up">
                 <div class="yourBets">Your Bets (<span class="compteurBets">0</span>)</div>
-                <div class="choices">
-                    <!-- <div class="choice">
-                        <ul class="choice_line">
-                            <li class="teamChoice">test</li>
-                            <li class="quoteChoice">test</li>
-                            <span class="delete">❌</span>
-                        </ul>
-                        <p class="teams">ttest</p>
-                    </div> -->
+                <div class="toHide">
+                    <div class="choices">
+                        <!-- <div class="choice">
+                            <ul class="choice_line">
+                                <li class="teamChoice">test</li>
+                                <li class="quoteChoice">test</li>
+                                <span class="delete">❌</span>
+                            </ul>
+                            <p class="teams">ttest</p>
+                        </div> -->
                     
-                </div>
-                <div class="calculs">
-                    <div class="mise">
-                        <span>Votre mise</span>
-                        <input type="number" class="miseNbr">
                     </div>
-                    <div class="coteTotale">
-                        <span>Cote totale</span>
-                        <span class="coteTotal_result"></span>
-                        <div class="gainPotentiel">
-                            <span>Gain potentiel</span>
-                            <span class="gainPotentiel_result"></span>
+                    <div class="calculs">
+                        <div class="mise">
+                            <span>Votre mise</span>
+                            <input type="number" class="miseNbr">
+                        </div>
+                        <div class="coteTotale">
+                            <span>Cote totale</span>
+                            <span class="coteTotal_result"></span>
+                            <div class="gainPotentiel">
+                                <span>Gain potentiel</span>
+                                <span class="gainPotentiel_result"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
