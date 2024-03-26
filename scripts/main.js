@@ -23,7 +23,6 @@ let multGainPotentiel = 1
 let inputMise = document.querySelector('.miseNbr')
 let valeurMise = inputMise.value 
 
-
 // Vérifiez s'il existe une préférence utilisateur précédemment enregistrée pour le mode sombre dans le stockage local
 if (localStorage.getItem('darkMode') === 'true') {
   darkMode();
@@ -131,7 +130,6 @@ function hidePopup() {
 
 // injecter les éléments dans le pop up 
 function addToPopUp (destination, teamChoice, quoteChoice, teamDom, teamGuest, index ){
-  // ❌❌❌❌❌❌❌❌ 
   // je vérifie si un élément existe déjà avec ce data index 
   const dataIndexExiste = destination.querySelector(`[data-index="${index}"]`);
   // s'il existe, remplacer par le nouveau 
@@ -167,7 +165,6 @@ function addToPopUp (destination, teamChoice, quoteChoice, teamDom, teamGuest, i
       sommeBest++
       compteurBets.innerHTML = sommeBest
   }
-  // ❌❌❌❌❌❌❌❌ 
   
       // Vérifier si la cote existe déjà dans le tableau cotesTab avant de l'ajouter
       const existingIndex = cotesTab.findIndex(function(item) {
@@ -190,6 +187,22 @@ function addToPopUp (destination, teamChoice, quoteChoice, teamDom, teamGuest, i
 
 }
 
+function updateGainPotentiel() {
+  // Récupérer la valeur de l'input mise
+  let valeurMise = parseFloat(inputMise.value);
+  /// vérifier si la valeur extraite de inputMise.value est un nombre valide ou non et =0
+  if (isNaN(valeurMise) || valeurMise === 0) {
+    // Si l'input est vide ou égal à zéro, afficher 0 dans gainPotentiel_result
+    gainPotentiel_result.innerHTML = "0";
+  } else {
+    // Calculer le gain potentiel en multipliant la mise par les cotes
+    multGainPotentiel = valeurMise * sommecotes;
+    // Mettre à jour le contenu HTML pour afficher le gain potentiel
+    gainPotentiel_result.innerHTML = multGainPotentiel.toFixed(1);
+  }
+  console.log(multGainPotentiel);
+}
+
 // multiplier les cotes entre elles puis appeler la fonction à la fin dans la délégation d'event button & classe active 
 function multiplyCotes() {
   // je réinitialise la variable qui stocke les chiffres 
@@ -201,108 +214,105 @@ function multiplyCotes() {
         // multiplier la variable qui stocke par la quoteChoice stockée dans le tableau 
         sommecotes*= parseFloat(cotesTab[i].quoteChoice)
       }
+      console.log(sommecotes);
       // j'injecte dans l'html 
       coteTotal_result.innerHTML = sommecotes.toFixed(1)
+      updateGainPotentiel()
 }
+
+
+
 
 // intégrer API début ********************
 function myFetch (){
 
-fetch("scripts/datas.json") 
-// (ligne qui pointe vers le service externe à qui on veut s’adresser)
+  fetch("scripts/datas.json") 
+  // (ligne qui pointe vers le service externe à qui on veut s’adresser)
 
-// (méthode then ^pour gérer la réponse reçue en retour)
-  .then(response => response.json()) 
-//   ( 1) convertir en json : tableaux objets et clés et envoyer les données au .then suivant)
-  .then(data => { 
-    // (2) à partir des datas qu’on a converti, faire un console log poour voir ce qu’on a récup
-    console.log(data); 
-    // (3) toutes la programmation
+  // (méthode then ^pour gérer la réponse reçue en retour)
+    .then(response => response.json()) 
+  //   ( 1) convertir en json : tableaux objets et clés et envoyer les données au .then suivant)
+    .then(data => { 
+      // (2) à partir des datas qu’on a converti, faire un console log poour voir ce qu’on a récup
+      console.log(data); 
+      // (3) toutes la programmation
 
-    // ajouter les matchs de json vers html
-    for(let i=0; i<data.matchs.length; i++){
-      lines_matchs.innerHTML += `<div class="line_match" data-index=${data.matchs[i].match_id}>
-      <div class="match">
-          <span class="teamDom">${data.matchs[i].hometeam}</span>-<span class="teamGuest">${data.matchs[i].awayteam}</span>
-      </div>
-      <div class="buttons_quotes">
-          <button class="button domicile" type="submit">${data.matchs[i].home_odd}</button>
-          <button class=" button nul" type="submit">${data.matchs[i].draw_odd}</button>
-          <button class="button invite" type="submit">${data.matchs[i].away_odd}</button>
-      </div>
-      </div>`
-    }
-
-  // event buttons & classe active  début*************************************
-    // constante pour faire mon forEach 
-  const lineMatches = document.querySelectorAll('.line_match');
-
-    // délégation d'évènement buttons & classe active 
-
-  lineMatches.forEach(lineMatch => {
-
-      lineMatch.addEventListener("click", function(e){
-          // vérifier si l'élément sur lequel on click c'est bien celui qui nous intéresse
-          if(e.target.classList.contains('button')){
-  // ❌❌❌❌❌❌❌❌ 
-
-            // Retirer la classe active des boutons existants dans la même ligne
-      const activeButton = lineMatch.querySelector('.button.active');
-      if (activeButton) {
-        activeButton.classList.remove('active'); 
+      // ajouter les matchs de json vers html
+      for(let i=0; i<data.matchs.length; i++){
+        lines_matchs.innerHTML += `<div class="line_match" data-index=${data.matchs[i].match_id}>
+        <div class="match">
+            <span class="teamDom">${data.matchs[i].hometeam}</span>-<span class="teamGuest">${data.matchs[i].awayteam}</span>
+        </div>
+        <div class="buttons_quotes">
+            <button class="button domicile" type="submit">${data.matchs[i].home_odd}</button>
+            <button class=" button nul" type="submit">${data.matchs[i].draw_odd}</button>
+            <button class="button invite" type="submit">${data.matchs[i].away_odd}</button>
+        </div>
+        </div>`
       }
-  // ❌❌❌❌❌❌❌❌ 
 
-                // on vérifie si l'élément clické a la classe active, on le retire
+      // event buttons & classe active  début*************************************
+      // constante pour faire mon forEach 
+      const lineMatches = document.querySelectorAll('.line_match');
+
+      // délégation d'évènement buttons & classe active 
+
+      lineMatches.forEach(lineMatch => {
+
+        lineMatch.addEventListener("click", function(e){
+            // vérifier si l'élément sur lequel on click c'est bien celui qui nous intéresse
+            if(e.target.classList.contains('button')){ 
+              
               if(e.target.classList.contains('active')){
-                // si la réponse est true :
-                // toggle enlève si elle est là, met si elle n'est pas là
-                e.target.classList.toggle('active')        
-                // si l'élément clické n'a pas la classe active, on l'ajoute'
+              // si la réponse est true :
+              // Supprimer l'élément avec le même data-index du conteneur "choices" (popup)
+              const dataIndex = e.target.closest('.line_match').dataset.index;
+              const choiceToDelete = document.querySelector(`.choice[data-index="${dataIndex}"]`);
+              if (choiceToDelete) {
+                  choiceToDelete.remove()
+              }
+            // toggle enlève si elle est là, met si elle n'est pas là
+              e.target.classList.toggle('active') 
+              // si l'élément clické n'a pas la classe active, on l'ajoute'
               } else {
-                
               //  maintenant, on doit vérifier si un autre enfant a la classe Active, on doit le retirer
-                // Si le parent (lines_matchs) a un autre enfant (qque celui sur lequel je click) qui a la classe active ... 
-                if(lineMatch.querySelector('.active')){
-                  lineMatch.querySelector('.active').classList.remove('active')
-                    e.target.classList.add('active')
-                  
-                // Si le parent (lines_matchs) n'a pas la classe active sur un des enfants on l'ajoutte sur le bttn clické
-                } else {
-                    e.target.classList.toggle('active')
-                    
-                  // condition pour chaque bouton sélectionné + nourrir dans le popup
-                    // variables pour le contenu de chaque cible avec data-index qui suit dans le pop up
-                    let teamGuest_content = e.target.parentElement.parentElement.querySelector('.teamGuest').textContent
-                    let teamDom_content = e.target.parentElement.parentElement.querySelector('.teamDom').textContent
-                    let button_content = e.target.textContent
-  // ❌❌❌❌❌❌❌❌ 
+              // Si le parent (lines_matchs) a un autre enfant (qque celui sur lequel je click) qui a la classe active ... 
+              if(lineMatch.querySelector('.active')){
+                lineMatch.querySelector('.active').classList.remove('active')
+                  e.target.classList.add('active')
+                
+              // Si le parent (lines_matchs) n'a pas la classe active sur un des enfants on l'ajoutte sur le bttn clické
+              } else {
+              e.target.classList.toggle('active')
+                      
+              // variables pour le contenu de chaque cible avec data-index qui suit dans le pop up
+              let teamGuest_content = e.target.parentElement.parentElement.querySelector('.teamGuest').textContent
+              let teamDom_content = e.target.parentElement.parentElement.querySelector('.teamDom').textContent
+              let button_content = e.target.textContent
+              let dataIndex = e.target.closest('.line_match').dataset.index
+              // condition pour chaque bouton sélectionné + nourrir dans le popup
+              if(e.target.classList.contains('domicile')){
+                // fonction créée plus haut avec les arguments nécessaires 
+                addToPopUp(choices, teamDom_content, button_content, teamDom_content,teamGuest_content, dataIndex)
+              }else if(e.target.classList.contains('nul')){
+                addToPopUp(choices, 'Match Nul', button_content, teamDom_content,teamGuest_content, dataIndex)
+              }else{ //e.target.classList.contains('invite')
+                addToPopUp(choices, teamGuest_content, button_content, teamDom_content,teamGuest_content, dataIndex)
+              }
 
-                    let dataIndex = e.target.closest('.line_match').dataset.index
-  // ❌❌❌❌❌❌❌❌ 
-                    
-                      if(e.target.classList.contains('domicile')){
-                        // fonction créée plus haut avec les arguments nécessaires 
-                        addToPopUp(choices, teamDom_content, button_content, teamDom_content,teamGuest_content, dataIndex)
-                      }else if(e.target.classList.contains('nul')){
-                        addToPopUp(choices, 'Match Nul', button_content, teamDom_content,teamGuest_content, dataIndex)
-                      }else{ //e.target.classList.contains('invite')
-                        addToPopUp(choices, teamGuest_content, button_content, teamDom_content,teamGuest_content, dataIndex)
-                      }
-
-                      // une fois toutes les cotes ajoutées je fais la multiplications pour éviter les doublons etc 
-                      multiplyCotes()    
+              // une fois toutes les cotes ajoutées je fais la multiplications pour éviter les doublons etc 
+              multiplyCotes()    
                 }
               }
-          }
-        })
 
+            }
+          })
+      })
+      // event buttons & classe active fin *************************************
     })
-    // event buttons & classe active fin *************************************
+    .catch(error => {console.log("Erreur lors de la récup des données :", error); 
+  //   (4) si on a pas les droits ou on a fait une erreur, ça les retourne ici)
   })
-  .catch(error => {console.log("Erreur lors de la récup des données :", error); 
-//   (4) si on a pas les droits ou on a fait une erreur, ça les retourne ici)
-})
 
 }
 // intégrer API fin ********************
@@ -321,21 +331,15 @@ hidePopup()
 // input et multiplication gain potentiel 
 // dès qu'on met qlqch dans l'input on actionne la multiplication pour avoir le gain potentiel:
 inputMise.addEventListener("input", function() {
-  // initialise la variable dans l'event 
-  let valeurMise = inputMise.value;
-  // j'injecte le resultat dans la variable créée au tout début 
-  multGainPotentiel = valeurMise*sommecotes
-  // j'injecte l'html 
-  gainPotentiel_result.innerHTML = multGainPotentiel
- 
+  updateGainPotentiel()
 })
-
 
 // supprimer un élément de la liste 
 //  délégation d'événements pour supprimer au  click de 'delete'
 choices.addEventListener("click", function(event) {
   // je vérifie si c'est le bon élément
   if (event.target.classList.contains('delete')) {
+    console.log('hello'); 
     // Récupère l'index de l'élément à supprimer
     const dataIndex = event.target.closest('.choice').dataset.index;
     
@@ -376,6 +380,10 @@ choices.addEventListener("click", function(event) {
     }
 }
 
+
+
+
+
     // Recalculer les cotations après la suppression d'un élément
     multiplyCotes();
     // remettre compteur de bets à jour, le décrémenter (je sais pas si ça se dit :-))
@@ -400,10 +408,10 @@ document.addEventListener("DOMContentLoaded", function() {
   let bgimg = backgroundImages[randomIndex];
 
   // Appliquer l'image de fond au corps du document
-  randomImg.style.background = `url(../images/${bgimg}) bottom/cover no-repeat`;
+  randomImg.style.background = `url(../images/${bgimg}) center/contain no-repeat`;
 })
 
-// Ajoutez un gestionnaire d'événements pour détecter les clics sur le bouton "Dark Mode"
+// event pour détecter les clics sur le bouton "Dark Mode"
 darkModeBtn.addEventListener('click', function() {
   darkMode()
   lightModeBtn.style.display = 'block'
@@ -411,14 +419,14 @@ darkModeBtn.addEventListener('click', function() {
   
 })
 
+// event pour détecter les clics sur le bouton "lightt Mode"
 lightModeBtn.addEventListener('click', function() {
-      // Si le mode sombre est activé, désactivez-le
-      desactiverDarkMode();
-      darkModeBtn.style.display = 'block'
-      lightModeBtn.style.display = 'none'
+  // Si le mode sombre est activé, on le désactive
+  desactiverDarkMode();
+  darkModeBtn.style.display = 'block'
+  lightModeBtn.style.display = 'none'
   
 })
-
 
 // Ajouter des gestionnaires d'événements pour les boutons de langue
 langButtons.forEach(langButton => {
@@ -449,8 +457,4 @@ document.addEventListener('DOMContentLoaded', function() {
   } else if (savedLang === 'spanish') {
       displayContentSpanish();
   }
-  
 });
-
-
-
